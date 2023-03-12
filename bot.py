@@ -1,26 +1,28 @@
 import os
-import logging
 
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, executor, types
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+
+# порядок важен
+import middlewares, filters, handlers
+from utils.notify_admins import on_startup_notify
+from utils.set_bot_commands import set_default_commands
 
 
 load_dotenv()
 
-# logging to see any errors or messages from your bot
-logging.basicConfig(level=logging.INFO)
-
-# Initialize the Bot and Dispatcher objects
-bot = Bot(token=os.getenv('BOT_TOKEN'))
+bot = Bot(token=os.getenv('BOT_TOKEN'), parse_mode=types.ParseMode.HTML)
+storage = MemoryStorage()
 dp = Dispatcher(bot)
 
+async def on_startup(dispatcher):
+    # Устанавливаем дефолтные команды
+    await set_default_commands(dispatcher)
 
-# A command handler that will respond to the /start command
-@dp.message_handler(commands=['start'])
-async def start(message: types.Message):
-    await message.reply("Yo mate!")
+    # Уведомляет про запуск
+    await on_startup_notify(dispatcher)
 
 
-# Starts the bot
 if __name__ == '__main__':
-    executor.start_polling(dp)
+    executor.start_polling(dp, on_startup=on_startup)
