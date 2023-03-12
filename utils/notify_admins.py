@@ -9,7 +9,7 @@ load_dotenv()
 
 
 async def on_startup_notify(dp: Dispatcher):
-    for admin in os.getenv('ADMINS'):
+    for admin in list(os.getenv('ADMINS')):
         try:
             await dp.bot.send_message(admin, "Бот Запущен")
 
