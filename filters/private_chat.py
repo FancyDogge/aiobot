@@ -10,5 +10,6 @@ class IsPrivate(BoundFilter):
     """
     async def check(self, message: types.Message) -> bool:
         return message.chat.type == types.ChatType.PRIVATE
+        # return message.text == '/start'
     
 dp.filters_factory.bind(IsPrivate)
