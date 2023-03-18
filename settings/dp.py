@@ -8,5 +8,5 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 load_dotenv()
 
 bot = Bot(token=os.getenv('BOT_TOKEN'), parse_mode=types.ParseMode.HTML)
-storage = MemoryStorage()
-dp = Dispatcher(bot)
+# storage оказывается в диспатчер передавать нужно
+dp = Dispatcher(bot, storage = MemoryStorage())
