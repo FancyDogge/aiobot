@@ -2,6 +2,7 @@ from aiogram import executor
 
 from settings.dp import dp
 from filters.private_chat import IsPrivate
+from handlers.errors import error_handler
 from handlers.users import start, admin, help, survey, echo
 # from utils.notify_admins import on_startup_notify
 from utils.set_bot_commands import set_default_commands
